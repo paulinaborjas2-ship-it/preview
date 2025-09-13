@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Instagram Notion Preview Widget</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: #fff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      max-width: 430px;
+      margin: 16px auto;
+      padding: 8px;
+    }
+    .ig-img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 1px 8px #0002;
+      transition: transform 0.2s;
+    }
+    .ig-img:hover {
+      transform: scale(1.04);
+    }
+    .loading {
+      text-align: center;
+      margin: 32px;
+      font-size: 1.2em;
+      color: #888;
+    }
+    @media (max-width: 600px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 400px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div class="loading">Cargando imágenes...</div>
+  </div>
+  <script>
+    // Cambia esta URL por la de tu función en Vercel
+    const apiUrl = "https://instagram-preview-widget.vercel.app/api/notion-images";
+
+    fetch(apiUrl)
+      .then(r => r.json())
+      .then(images => {
+        const grid = document.createElement('div');
+        grid.className = 'grid';
+        images.forEach(img => {
+          const el = document.createElement('img');
+          el.className = 'ig-img';
+          el.src = img.url;
+          grid.appendChild(el);
+        });
+        document.getElementById('container').innerHTML = '';
+        document.getElementById('container').appendChild(grid);
+      })
+      .catch(err => {
+        document.getElementById('container').innerHTML = '<div class="loading">Error al cargar imágenes.</div>';
+      });
+  </script>
+</body>
+</html>
