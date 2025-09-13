@@ -1,78 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Instagram Notion Preview Widget</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      background: #fff;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      max-width: 430px;
-      margin: 16px auto;
-      padding: 8px;
-    }
-    .ig-img {
-      width: 100%;
-      aspect-ratio: 1/1;
-      object-fit: cover;
-      border-radius: 10px;
-      box-shadow: 0 1px 8px #0002;
-      transition: transform 0.2s;
-    }
-    .ig-img:hover {
-      transform: scale(1.04);
-    }
-    .loading {
-      text-align: center;
-      margin: 32px;
-      font-size: 1.2em;
-      color: #888;
-    }
-    @media (max-width: 600px) {
-      .grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-    @media (max-width: 400px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div id="container">
-    <div class="loading">Cargando imágenes...</div>
-  </div>
-  <script>
-    // Cambia esta URL por la de tu función en Vercel
-    const apiUrl = "https://preview-insta-jfl5rcycz-janneths-projects.vercel.app";
+import { Client } from "@notionhq/client";
 
-    fetch(apiUrl)
-      .then(r => r.json())
-      .then(images => {
-        const grid = document.createElement('div');
-        grid.className = 'grid';
-        images.forEach(img => {
-          const el = document.createElement('img');
-          el.className = 'ig-img';
-          el.src = img.url;
-          grid.appendChild(el);
-        });
-        document.getElementById('container').innerHTML = '';
-        document.getElementById('container').appendChild(grid);
+const notion = new Client({ auth: process.env.NOTION_TOKEN });
+const databaseId = process.env.NOTION_DATABASE_ID;
+
+export default async function handler(req, res) {
+  try {
+    const response = await notion.databases.query({
+      database_id: databaseId,
+      sorts: [{ timestamp: "created_time", direction: "descending" }],
+      page_size: 12,
+    });
+
+    // Mapea cada página a { url, link }
+    const images = response.results
+      .map((page) => {
+        const props = page.properties;
+        const fileObj =props.Image?.files?.[0]; // 👈 nombre de tu columna "Imagen"
+        const link = props.Link?.url || null;     // 👈 opcional, si tienes columna "Link"
+        return fileObj
+          ? {
+              url: fileObj.file?.url || fileObj.external?.url,
+              link,
+            }
+          : null;
       })
-      .catch(err => {
-        document.getElementById('container').innerHTML = '<div class="loading">Error al cargar imágenes.</div>';
-      });
-  </script>
-</body>
-</html>
+      .filter(Boolean);
+
+    res.status(200).json(images);
+  } catch (error) {
+    console.error("❌ Error en Notion API:", error.body || error);
+    res.status(500).json({ error: "No pude cargar datos de Notion" });
+  }
+}
+
