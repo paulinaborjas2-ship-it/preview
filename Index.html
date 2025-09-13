@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Instagram Preview Widget</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: #fff;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      padding: 8px;
+      max-width: 500px;
+      margin: auto;
+    }
+    .ig-img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 1px 8px #0002;
+      transition: transform 0.2s;
+    }
+    .ig-img:hover {
+      transform: scale(1.03);
+    }
+    @media (max-width: 600px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 400px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid">
+    <!-- Cambia estas URLs por las de tu Notion -->
+    <https://www.notion.so/image/attachment%3A2e54913b-ed6a-4c66-bcce-8118f0874e30%3Acd6297245daf39147c5df50bbb38c7bf.jpg?id=26d98a09-1a81-80c3-814f-e0b5a8b54514&table=block&spaceId=05229d37-4241-4393-ae4b-ecb124f94959&width=2000&userId=664d8f93-3c9e-4cdb-80ac-8e1906270076&cache=v2>
+    <https://www.notion.so/image/attachment%3A92877f64-3bbc-4be2-8a24-cd9113815cf0%3Af27d5fa4feabd096a7ad3d39531b7827.jpg?id=26b98a09-1a81-800c-b49a-e28429b1545c&table=block&spaceId=05229d37-4241-4393-ae4b-ecb124f94959&width=2000&userId=664d8f93-3c9e-4cdb-80ac-8e1906270076&cache=v2">
+    <https://www.notion.so/image/attachment%3Aef4924fe-9769-4a5b-a664-834bfb75f501%3A2f093ee25834387d1e9160b62e50b330.jpg?id=26c98a09-1a81-80ac-aca2-f0f92e25bbf7&table=block&spaceId=05229d37-4241-4393-ae4b-ecb124f94959&width=2000&userId=664d8f93-3c9e-4cdb-80ac-8e1906270076&cache=v2">
+    <https://www.notion.so/image/attachment%3A60d1e2bf-390c-4aa9-9c7d-6815605c1f15%3A03617b8863666857b3072792b010a403.jpg?table=block&id=26d98a09-1a81-804e-8773-d9c0b6d93c6c&spaceId=05229d37-4241-4393-ae4b-ecb124f94959&width=2000&userId=664d8f93-3c9e-4cdb-80ac-8e1906270076&cache=v2">
+    <https://www.notion.so/image/attachment%3Aeffbc032-2898-41fe-9111-709bdede79c0%3A58dcb95b8c67782a36f5d219642135fb.jpg?table=block&id=26d98a09-1a81-80ff-ae79-c505fe9b4cd4&spaceId=05229d37-4241-4393-ae4b-ecb124f94959&width=2000&userId=664d8f93-3c9e-4cdb-80ac-8e1906270076&cache=v2">
+    <https://www.notion.so/image/attachment%3A427a5286-33fc-4bf3-b106-10a7fd36910c%3A1baa5d24c46417d087436fac76e39a4c.jpg?table=block&id=26d98a09-1a81-8063-98e0-da503c91f24f&spaceId=05229d37-4241-4393-ae4b-ecb124f94959&width=2000&userId=664d8f93-3c9e-4cdb-80ac-8e1906270076&cache=v2">
+    <!-- Agrega más imágenes copiando el <img ...> y poniendo la URL de tu imagen de Notion -->
+  </div>
+</body>
+</html>
